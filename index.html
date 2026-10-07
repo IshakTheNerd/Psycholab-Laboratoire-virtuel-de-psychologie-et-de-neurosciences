@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PSYCHOLAB 1.0 — Ishak</title>
+<link rel="icon" href="logo.png">
+<style>
+:root{--desk:#008080;--bg:#c0c0c0;--fg:#000;--hi:#fff;--sh:#808080;--dk:#404040;--tb:#000080;--pn:#fff;--ac:#000080;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--desk:#0b2a2a;--bg:#2e2e2e;--fg:#e6e6e6;--hi:#5a5a5a;--sh:#151515;--dk:#000;--tb:#14306e;--pn:#1b1b1b;--ac:#7fb0ff}}
+:root[data-theme="dark"]{--desk:#0b2a2a;--bg:#2e2e2e;--fg:#e6e6e6;--hi:#5a5a5a;--sh:#151515;--dk:#000;--tb:#14306e;--pn:#1b1b1b;--ac:#7fb0ff}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--desk);color:var(--fg);font:16px/1.5 "Courier New",Courier,monospace;padding:8px}
+.win{max-width:1320px;margin:0 auto;background:var(--bg);border:2px solid;border-color:var(--hi) var(--dk) var(--dk) var(--hi);box-shadow:1px 1px 0 var(--sh)}
+.tb{background:var(--tb);color:#fff;padding:3px 8px;font-weight:bold;display:flex;justify-content:space-between}
+.tabs{display:flex;flex-wrap:wrap;gap:2px;padding:6px 6px 0}
+button,select{font:inherit;color:var(--fg);background:var(--bg);border:2px solid;border-color:var(--hi) var(--dk) var(--dk) var(--hi);padding:3px 10px;cursor:pointer}
+button:active,.tab.on{border-color:var(--dk) var(--hi) var(--hi) var(--dk)}
+.tab.on{font-weight:bold}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:2px dotted var(--ac);outline-offset:1px}
+.pg{margin:6px;padding:10px;background:var(--bg);border:2px solid;border-color:var(--dk) var(--hi) var(--hi) var(--dk)}
+.pg[hidden]{display:none}
+h2{margin:0 0 8px;font-size:21px}h3{margin:8px 0 4px;font-size:17px}
+.row{display:flex;flex-wrap:wrap;gap:12px}.row>*{flex:1 1 280px;min-width:0}
+.box{background:var(--pn);border:2px solid;border-color:var(--dk) var(--hi) var(--hi) var(--dk);padding:8px}
+canvas{display:block;width:100%;max-width:100%;height:auto;border:2px solid;border-color:var(--dk) var(--hi) var(--hi) var(--dk)}
+label{display:block;margin:4px 0}input[type=range]{width:100%}
+svg{width:100%;height:auto;background:#001a00;border:2px solid;border-color:var(--dk) var(--hi) var(--hi) var(--dk)}
+svg [data-r]{cursor:pointer;stroke:#000;stroke-width:1.5;fill-opacity:.85}svg [data-r].sel{stroke:#ff0;stroke-width:3}
+.big{font-size:46px;font-weight:bold;text-align:center;padding:14px;letter-spacing:2px}
+.out{color:var(--ac);font-weight:bold}
+.st{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:3px 8px;border-top:2px solid var(--hi);font-size:12px}
+.card{cursor:pointer;text-align:left;display:block;width:100%;margin:3px 0}
+.tag{font-size:12px;color:var(--ac)}
+.note{font-size:12px;color:var(--sh)}
+.pg{padding:16px}
+textarea{width:100%;font:inherit;color:var(--fg);background:var(--pn);border:2px solid;border-color:var(--dk) var(--hi) var(--hi) var(--dk);padding:6px}
+.bar{background:var(--pn);border:2px solid;border-color:var(--dk) var(--hi) var(--hi) var(--dk);height:18px;margin-bottom:8px}.bar i{display:block;height:100%;background:var(--tb)}
+.news{margin-bottom:10px}.news a{color:var(--ac)}
+</style></head><body>
+<div class="win">
+<div class="tb"><span><img src="logo.png" alt="" onerror="this.remove()" style="height:18px;vertical-align:middle;margin-right:6px">PSYCHOLAB 1.0 - Laboratoire de psychologie</span><span>[_][&#9633;][x]</span></div>
+<div class="tabs" role="tablist">
+<button class="tab on" data-t="atlas">Atlas cérébral</button><button class="tab" data-t="neuro">Neurone</button><button class="tab" data-t="path">Pathologies</button><button class="tab" data-t="learn">Apprentissage</button><button class="tab" data-t="eeg">EEG</button><button class="tab" data-t="exp">Expériences</button><button class="tab" data-t="chir">Neurochirurgie</button><button class="tab" data-t="pers">Personnalité</button><button class="tab" data-t="lib">Bibliothèque</button><button class="tab" data-t="log">Carnet de bord</button>
+</div>
+
+<section class="pg" id="atlas"><h2>Atlas cérébral (vue latérale, face à gauche)</h2>
+<div class="row"><div>
+<svg viewBox="0 0 400 290" role="img" aria-label="Schéma du cerveau">
+<path data-r="tronc" d="M215 190 L255 190 L262 282 L225 282 Z"/>
+<ellipse data-r="cer" cx="305" cy="228" rx="58" ry="32"/>
+<defs><clipPath id="cc"><ellipse cx="190" cy="125" rx="170" ry="100"/></clipPath></defs>
+<g clip-path="url(#cc)">
+<polygon data-r="front" points="0,0 220,0 195,125 130,160 0,160"/>
+<polygon data-r="pari" points="220,0 285,0 285,110 195,125"/>
+<polygon data-r="occi" points="285,0 400,0 400,260 285,260"/>
+<polygon data-r="temp" points="0,160 130,160 195,125 285,110 285,260 0,260"/>
+</g>
+<line data-r="motor" x1="217" y1="12" x2="194" y2="116" stroke-width="10"/>
+<line data-r="soma" x1="232" y1="12" x2="209" y2="112" stroke-width="10"/>
+<circle data-r="broca" cx="100" cy="128" r="11"/><circle data-r="wern" cx="252" cy="126" r="11"/>
+<ellipse data-r="thal" cx="190" cy="125" rx="20" ry="13"/>
+<ellipse data-r="hipp" cx="215" cy="162" rx="34" ry="8" transform="rotate(-18 215 162)"/>
+<circle data-r="amyg" cx="162" cy="160" r="9"/>
+</svg>
+<p class="note">Cliquez sur une région. Les structures profondes (thalamus, hippocampe, amygdale) sont dessinées en transparence.</p></div>
+<div class="box" id="info" aria-live="polite"><h3>Sélectionnez une région</h3><p>Chaque région a une fonction principale et des conséquences connues en cas de lésion. Avant de lire, essayez de deviner les symptômes.</p></div></div></section>
+
+<section class="pg" id="neuro" hidden><h2>Neurone : modèle de Hodgkin-Huxley</h2>
+<div class="row"><div><canvas id="hc" width="640" height="260"></canvas></div><div class="box">
+<label>Courant injecté : <span class="out" id="hIv"></span> µA/cm²<input type="range" id="hI" min="0" max="30" step="0.5" value="10"></label>
+<label>Canaux sodium actifs : <span class="out" id="hNv"></span> %<input type="range" id="hNa" min="0" max="100" value="100"></label>
+<p id="hOut"></p><p class="note">Le courant est appliqué de 10 à 90 ms. Réduire le sodium imite un bloqueur (anesthésique local, tétrodotoxine) : le potentiel d'action disparaît.</p></div></div></section>
+
+<section class="pg" id="path" hidden><h2>Simulation de pathologies</h2>
+<div class="row"><div><canvas id="pc" width="640" height="260"></canvas></div><div class="box">
+<label>Maladie <select id="pM"><option value="park">Parkinson (neurones dopaminergiques)</option><option value="alz">Alzheimer (perte neuronale)</option><option value="dep">Dépression (stress chronique)</option><option value="sch">Schizophrénie (dopamine)</option><option value="adhd">TDAH (attention)</option></select></label>
+<label>Progression / intensité : <span class="out" id="pPv"></span> %<input type="range" id="pP" min="0" max="100" value="30"></label>
+<label><input type="checkbox" id="pT"> Traitement</label>
+<p id="pOut"></p></div></div>
+<p class="note">Modèles pédagogiques très simplifiés. Ils ne servent ni à diagnostiquer ni à soigner. En cas de doute sur sa santé, consultez un médecin.</p></section>
+
+<section class="pg" id="learn" hidden><h2>Apprentissage et mémoire</h2>
+<div class="row"><div><h3>Conditionnement (Rescorla-Wagner)</h3><canvas id="rc" width="640" height="260"></canvas>
+<label>Vitesse d'apprentissage : <span class="out" id="rAv"></span>%<input type="range" id="rA" min="5" max="60" value="25"></label>
+<label>Début de l'extinction (essai) : <span class="out" id="rEv"></span><input type="range" id="rE" min="5" max="40" value="22"></label></div>
+<div><h3>Courbe de l'oubli (Ebbinghaus) et espacement</h3><canvas id="ec" width="640" height="260"></canvas>
+<label>Nombre de révisions : <span class="out" id="eNv"></span><input type="range" id="eN" min="0" max="6" value="3"></label>
+<label>Écart entre révisions : <span class="out" id="eGv"></span> jours<input type="range" id="eG" min="1" max="7" value="2"></label></div></div></section>
+
+<section class="pg" id="exp" hidden><h2>Expériences</h2>
+<div class="row"><div class="box"><h3>Test de Stroop</h3><p>Cliquez sur la couleur de l'encre, pas sur le mot lu. 20 essais.</p>
+<div class="big" id="sw">PRÊT</div><div id="sb"></div><p><button id="sgo">Démarrer</button></p><p id="sOut"></p></div>
+<div class="box"><h3>Temps de réaction</h3><p>Cliquez dès que le bouton devient vert.</p>
+<p><button id="rb" style="width:100%;padding:28px">Commencer</button></p><p id="rOut"></p></div></div></section>
+
+<section class="pg" id="lib" hidden><h2>Bibliothèque de psychologie</h2>
+<p><label style="display:inline">Branche <select id="fB"></select></label> <label style="display:inline">Niveau <select id="fN"><option value="0">Tous</option><option value="1">1 - Débutant</option><option value="2">2 - Intermédiaire</option><option value="3">3 - Avancé</option></select></label></p>
+<div class="row"><div id="list"></div><div class="box" id="course" aria-live="polite"><p>Choisissez un cours. Chaque cours contient une partie théorie et un exercice pratique.</p></div></div></section>
+
+<section class="pg" id="eeg" hidden><h2>Simulateur d'EEG</h2><div class="row"><div><canvas id="gc" width="800" height="300"></canvas></div><div class="box">
+<label>État <select id="gS"><option value="open">Éveil, yeux ouverts (bêta)</option><option value="closed">Éveil, yeux fermés (alpha)</option><option value="n3">Sommeil profond (delta)</option><option value="rem">Sommeil paradoxal</option><option value="sz">Crise d'épilepsie (pointes-ondes)</option></select></label>
+<label>Amplitude : <span class="out" id="gAv"></span> µV<input type="range" id="gA" min="10" max="100" value="40"></label>
+<label>Bruit : <span class="out" id="gNv"></span> %<input type="range" id="gN" min="0" max="100" value="20"></label>
+<p id="gOut"></p></div></div></section>
+
+<section class="pg" id="chir" hidden><h2>Neurochirurgie : résection d'une tumeur en chirurgie éveillée</h2><div class="row"><div><canvas id="nc" width="800" height="520"></canvas></div><div class="box">
+<p>Objectif : retirer le maximum de tumeur sans toucher les zones fonctionnelles, que l'on repère en stimulant le cortex du patient éveillé.</p>
+<p><button id="nM">Mode : cartographier</button> <button id="nI">Masquer l'IRM</button></p>
+<label>Rayon de résection : <span class="out" id="nRv"></span> px<input type="range" id="nR" min="10" max="60" value="25"></label>
+<p><button id="nE">Évaluer l'opération</button> <button id="nX">Nouveau cas</button></p><p id="nOut"></p></div></div>
+<p class="note">Simulation très simplifiée à but pédagogique : une vraie opération s'appuie sur l'imagerie, la neuronavigation et une équipe pluridisciplinaire.</p></section>
+
+<section class="pg" id="pers" hidden><h2>Profil de personnalité (Big Five, version courte)</h2><div class="row"><div class="box" id="pq"></div><div class="box" id="pr"></div></div>
+<p class="note">Questionnaire de 10 items, non validé scientifiquement : il illustre le modèle mais n'est pas un test psychologique.</p></section>
+
+<section class="pg" id="log" hidden><h2>Carnet de bord</h2><div class="row"><div><h3>Actualités de la psychologie et des neurosciences</h3><p class="note">Instantané du 7 octobre 2026, résumé à partir des sources indiquées. Ce carnet ne se met pas à jour tout seul : il faut régénérer le logiciel pour l'actualiser. Les études citées sont souvent préliminaires.</p><div id="news"></div></div>
+<div class="box"><h3>Mes notes</h3><textarea id="myn" rows="16" placeholder="Écrivez vos notes d'étude ici..."></textarea></div></div></section>
+
+<div class="st"><span>PSYCHOLAB v1.0 - conçu par Ishak</span><span id="prog"></span><span>Usage éducatif uniquement</span></div>
+</div>
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+$$('.tab').forEach(b=>b.onclick=()=>{$$('.tab').forEach(x=>x.classList.toggle('on',x==b));$$('.pg').forEach(p=>p.hidden=p.id!=b.dataset.t)});
+/* ---- Atlas ---- */
+const R={
+front:[`Lobe frontal`,`Planification, décision, contrôle des impulsions, personnalité, mémoire de travail.`,`Désinhibition, apathie, troubles de l'organisation (cas de Phineas Gage).`,`#e8a0a0`],
+pari:[`Lobe pariétal`,`Intégration sensorielle, attention spatiale, schéma corporel.`,`Négligence spatiale d'un côté du monde, apraxie.`,`#a0d0e8`],
+occi:[`Lobe occipital`,`Vision : le cortex visuel primaire (V1) s'y trouve.`,`Cécité corticale, agnosies visuelles.`,`#c8a0e8`],
+temp:[`Lobe temporal`,`Audition, compréhension du langage, mémoire sémantique, reconnaissance des visages.`,`Aphasies, prosopagnosie, troubles de la mémoire.`,`#a0e8b0`],
+cer:[`Cervelet`,`Coordination, équilibre, apprentissage moteur, et un rôle dans certaines fonctions cognitives.`,`Ataxie, tremblement à l'intention, mouvements imprécis.`,`#e8d890`],
+tronc:[`Tronc cérébral`,`Respiration, rythme cardiaque, éveil (formation réticulée).`,`Coma, troubles vitaux graves.`,`#b0b0b0`],
+thal:[`Thalamus`,`Relais des informations sensorielles vers le cortex, régulation de l'éveil.`,`Troubles sensoriels et de la conscience.`,`#ff9060`],
+hipp:[`Hippocampe`,`Formation de nouveaux souvenirs, navigation spatiale.`,`Amnésie antérograde (patient H.M.). Atteint tôt dans la maladie d'Alzheimer.`,`#60d0ff`],
+amyg:[`Amygdale`,`Émotions, peur, mémoire émotionnelle.`,`Perte de la réaction de peur (patiente S.M.), syndrome de Klüver-Bucy chez l'animal.`,`#ff5070`],
+motor:[`Cortex moteur primaire (M1)`,`Commande des mouvements volontaires, organisée en « homoncule moteur ».`,`Paralysie du côté opposé du corps.`,`#ffe040`],
+soma:[`Cortex somatosensoriel (S1)`,`Toucher, douleur, température, position des membres.`,`Perte de sensibilité du côté opposé du corps.`,`#40e0a0`],
+broca:[`Aire de Broca`,`Production du langage parlé.`,`Aphasie de Broca : parole hachée et laborieuse, compréhension conservée.`,`#ff8040`],
+wern:[`Aire de Wernicke`,`Compréhension du langage.`,`Aphasie de Wernicke : discours fluide mais incohérent, compréhension altérée.`,`#d060ff`]};
+Object.keys(R).forEach(k=>{const e=$(`[data-r=${k}]`);e.setAttribute('fill',R[k][3]);e.setAttribute('tabindex',0);e.onclick=()=>show(k);e.onkeydown=ev=>{if(ev.key=='Enter')show(k)}});
+function show(k){$$('[data-r]').forEach(e=>e.classList.toggle('sel',e.dataset.r==k));$('#info').innerHTML=`<h3>${R[k][0]}</h3><p><b>Fonction :</b> ${R[k][1]}</p><p><b>Si lésion :</b> ${R[k][2]}</p>`}
+/* ---- Tracé ---- */
+function frame(c,ymin,ymax,xl){const x=c.getContext('2d'),W=c.width,H=c.height;x.fillStyle='#001a00';x.fillRect(0,0,W,H);x.strokeStyle='#0c4a1c';x.lineWidth=1;x.font='11px monospace';x.fillStyle='#33ff66';
+for(let i=0;i<=10;i++){const X=44+(W-54)*i/10;x.beginPath();x.moveTo(X,10);x.lineTo(X,H-26);x.stroke()}
+for(let i=0;i<=4;i++){const Y=10+(H-36)*i/4;x.beginPath();x.moveTo(44,Y);x.lineTo(W-10,Y);x.stroke();x.fillText((ymax-(ymax-ymin)*i/4).toFixed(ymax-ymin>5?0:1),4,Y+4)}
+x.fillText(xl,W/2-40,H-8);return x}
+function line(c,x,ys,ymin,ymax,col){const W=c.width,H=c.height;x.strokeStyle=col;x.lineWidth=1.8;x.beginPath();ys.forEach((y,i)=>{const X=44+(W-54)*i/(ys.length-1),Y=10+(H-36)*(1-(y-ymin)/(ymax-ymin));i?x.lineTo(X,Y):x.moveTo(X,Y)});x.stroke()}
+function hline(c,x,v,ymin,ymax,col,t){const Y=10+(c.height-36)*(1-(v-ymin)/(ymax-ymin));x.strokeStyle=col;x.setLineDash([5,4]);x.beginPath();x.moveTo(44,Y);x.lineTo(c.width-10,Y);x.stroke();x.setLineDash([]);x.fillStyle=col;x.fillText(t,50,Y-4)}
+const bind=(ids,f)=>ids.forEach(i=>{const e=$('#'+i);const u=()=>{const v=$('#'+i+'v');if(v)v.textContent=e.value;f()};e.oninput=u;e.onchange=u;u()});
+/* ---- Hodgkin-Huxley ---- */
+function hh(){const I=+$('#hI').value,g=+$('#hNa').value/100,vt=(x,y)=>Math.abs(x/y)<1e-6?y:x/(1-Math.exp(-x/y));
+let V=-65,m=.05,h=.6,n=.32,dt=.02,out=[],sp=0,up=false;
+for(let i=0;i<5000;i++){const t=i*dt,Ii=(t>10&&t<90)?I:0;
+const am=.1*vt(V+40,10),bm=4*Math.exp(-(V+65)/18),ah=.07*Math.exp(-(V+65)/20),bh=1/(1+Math.exp(-(V+35)/10)),an=.01*vt(V+55,10),bn=.125*Math.exp(-(V+65)/80);
+m+=dt*(am*(1-m)-bm*m);h+=dt*(ah*(1-h)-bh*h);n+=dt*(an*(1-n)-bn*n);
+V+=dt*(Ii-120*g*m*m*m*h*(V-50)-36*n*n*n*n*(V+77)-.3*(V+54.4));
+if(V>0&&!up){sp++;up=true}if(V<-20)up=false;if(i%5==0)out.push(V)}
+const c=$('#hc'),x=frame(c,-90,60,'temps (0 à 100 ms)  -  potentiel de membrane (mV)');hline(c,x,-55,-90,60,'#ffb000','seuil approx.');line(c,x,out,-90,60,'#33ff66');
+$('#hOut').innerHTML=`Potentiels d'action : <span class="out">${sp}</span><br>Fréquence : <span class="out">${(sp/.08).toFixed(0)} Hz</span>`}
+bind(['hI','hNa'],hh);
+/* ---- Pathologies ---- */
+let s=7;const rnd=()=>(s=(s*16807)%2147483647)/2147483647,cells=Array.from({length:480},rnd);
+function pa(){const m=$('#pM').value,p=+$('#pP').value/100,tr=$('#pT').checked,c=$('#pc'),x=c.getContext('2d');let t='';
+x.fillStyle='#001a00';x.fillRect(0,0,640,260);
+if(m=='sch'){const pos=Math.min(100,p*100*(tr?.45:1)),neg=Math.min(100,p*70*(tr?.9:1));x.font='14px monospace';[['Symptômes positifs (hallucinations, délires)',pos,'#ff5070'],['Symptômes négatifs (apathie, retrait)',neg,'#ffb000']].forEach((b,i)=>{const y=50+i*100;x.fillStyle='#33ff66';x.fillText(b[0],40,y-10);x.strokeStyle='#33ff66';x.strokeRect(40,y,560,34);x.fillStyle=b[2];x.fillRect(42,y+2,556*b[1]/100,30);x.fillStyle='#fff';x.fillText(b[1].toFixed(0)+' %',48,y+22)});
+t=`Un excès de dopamine dans la voie mésolimbique est associé aux symptômes positifs. Les antipsychotiques bloquent les récepteurs D2 : ils réduisent surtout les symptômes positifs et agissent peu sur les symptômes négatifs et cognitifs, liés à un déficit dans le cortex préfrontal.<br>Modèle simplifié : le glutamate et la génétique jouent aussi un grand rôle.`}
+else if(m=='adhd'){const base=70-p*40+(tr?15:0),ys=[];for(let w=0;w<60;w++)ys.push(Math.max(0,Math.min(100,base+10*Math.sin(w*.6)-(cells[w*7]<p*.4?30:0))));
+const f=frame(c,0,100,`minutes d'une tâche prolongée - attention (0 à 100)`);hline(c,f,50,0,100,'#ffb000','seuil de lapsus');line(c,f,ys,0,100,'#33ff66');
+t=`Lapsus d'attention : <span class="out">${ys.filter(v=>v<50).length}/60</span><br>Le TDAH est un trouble neurodéveloppemental (inattention, hyperactivité, impulsivité) lié notamment à la dopamine et à la noradrénaline dans les circuits préfrontaux. Le diagnostic est posé par un professionnel ; la prise en charge associe souvent accompagnement, aménagements et parfois médicaments.`}
+else if(m!='dep'){let dead=0;cells.forEach((r,i)=>{const col=i%40,row=i/40|0,d=r<p*(m=='alz'?1.5-.9*col/40:1);if(d)dead++;x.fillStyle=d?'#3a1010':'#33ff66';x.fillRect(20+col*15,8+row*15,12,12)});
+const loss=dead/480;x.fillStyle='#33ff66';x.font='11px monospace';
+if(m=='alz'){let sc=Math.max(0,Math.min(30,Math.round(30*(1-loss*1.15))+(tr?2:0)));x.fillText('Neurones : à gauche, région de l\'hippocampe (touchée en premier) - à droite, cortex',20,208);
+t=`Perte neuronale : <span class="out">${(loss*100).toFixed(0)}%</span><br>Score type MMSE : <span class="out">${sc}/30</span> (${sc>=24?'cognition peu altérée':sc>=19?'atteinte légère':sc>=10?'atteinte modérée':'atteinte sévère'})<br>Le traitement symptomatique améliore un peu les symptômes sans arrêter la perte de neurones.`}
+else{const eff=(1-loss)+(tr?.2:0),amp=Math.max(0,Math.min(1,(.4-eff)/.4))*28,ys=[];for(let i=0;i<300;i++)ys.push(Math.sin(i/300*40*Math.PI*.55)*amp);
+x.fillText('Neurones dopaminergiques de la substance noire (vert = vivant)  -  tremblement de repos ci-dessous',20,208);x.strokeStyle='#ffb000';x.beginPath();ys.forEach((y,i)=>{const X=20+i*2,Y=235+y*.6;i?x.lineTo(X,Y):x.moveTo(X,Y)});x.stroke();
+t=`Neurones restants : <span class="out">${((1-loss)*100).toFixed(0)}%</span><br>${eff<.4?'Les symptômes moteurs apparaissent (tremblement, lenteur, rigidité). Ils se manifestent en général après une perte d\'environ 60 % des neurones.':'Compensation du cerveau : pas encore de symptômes moteurs.'}<br>La L-dopa remplace la dopamine manquante : elle soulage les symptômes sans arrêter la perte de neurones.`}}
+else{let M=70,ys=[],rec=.08+(tr?.05:0);for(let w=0;w<52;w++){M+=rec*(70-M)-.08*p*(1+.3*Math.sin(w));M=Math.max(0,Math.min(100,M));ys.push(M)}
+const f=frame(c,0,100,'semaines (0 à 52)  -  humeur (0 à 100)');hline(c,f,40,0,100,'#ffb000','seuil didactique d\'humeur basse');line(c,f,ys,0,100,'#33ff66');
+t=`Humeur après 1 an : <span class="out">${ys[51].toFixed(0)}/100</span><br>${ys[51]<40?'Humeur durablement basse : situation où un avis professionnel est recommandé.':'Humeur dans une zone de récupération.'}<br>Le traitement (psychothérapie, antidépresseurs) augmente la capacité de récupération. Le stress chronique, lui, augmente le cortisol et réduit la plasticité de l'hippocampe.`}
+$('#pOut').innerHTML=t}
+bind(['pP'],pa);$('#pM').onchange=pa;$('#pT').onchange=pa;
+/* ---- Apprentissage ---- */
+function rw(){const a=+$('#rA').value/100,e=+$('#rE').value;let V=0,ys=[];for(let t=0;t<40;t++){ys.push(V);V+=a*((t<e?1:0)-V)}
+const c=$('#rc'),x=frame(c,0,1,'essais - force de l\'association CS-US');line(c,x,ys,0,1,'#33ff66');hline(c,x,.5,0,1,'#ffb000','')}
+bind(['rA','rE'],rw);
+function eb(){const n=+$('#eN').value,g=+$('#eG').value;let S=1.5,last=0,ys=[],rev=0;for(let d=0;d<=30.01;d+=.25){if(rev<n&&d>=g*(rev+1)){rev++;S*=2.4;last=d}ys.push(100*Math.exp(-(d-last)/S))}
+const c=$('#ec'),x=frame(c,0,100,'jours (0 à 30) - rétention (%)');hline(c,x,50,0,100,'#ffb000','');line(c,x,ys,0,100,'#33ff66')}
+bind(['eN','eG'],eb);
+/* ---- Stroop ---- */
+const C=[['ROUGE','#e00000'],['BLEU','#3070ff'],['VERT','#10a010'],['JAUNE','#d0c000']];let st={};
+C.forEach(c=>{const b=document.createElement('button');b.textContent=c[0];b.style.margin='2px';b.onclick=()=>ans(c);$('#sb').appendChild(b)});
+$('#sgo').onclick=()=>{st={n:0,cg:[],ic:[],err:0};nx()};
+function nx(){if(st.n>=20){const mean=a=>a.length?Math.round(a.reduce((p,q)=>p+q,0)/a.length):'-';$('#sw').textContent='FIN';$('#sw').style.color='';st.on=false;$('#sOut').innerHTML=`Mot et encre identiques : <span class="out">${mean(st.cg)} ms</span><br>Mot et encre différents : <span class="out">${mean(st.ic)} ms</span><br>Erreurs : ${st.err}<br>Plus le second temps est long, plus l'interférence est forte.`;return}
+const w=C[Math.random()*4|0],ink=Math.random()<.5?w:C[Math.random()*4|0];st.ink=ink;st.same=w==ink;$('#sw').textContent=w[0];$('#sw').style.color=ink[1];st.t0=performance.now();st.on=true}
+function ans(c){if(!st.on)return;const d=performance.now()-st.t0;if(c==st.ink)(st.same?st.cg:st.ic).push(d);else st.err++;st.n++;nx()}
+/* ---- Temps de réaction ---- */
+let rt={s:0,a:[]};$('#rb').onclick=()=>{const b=$('#rb');if(rt.s==0){rt.s=1;b.textContent='Attendez le vert...';b.style.background='#c03030';rt.h=setTimeout(()=>{rt.s=2;rt.t=performance.now();b.style.background='#30c030';b.textContent='CLIQUEZ !'},1000+Math.random()*3000)}
+else if(rt.s==1){clearTimeout(rt.h);rt.s=0;b.style.background='';b.textContent='Trop tôt ! Recommencer';}
+else{const d=Math.round(performance.now()-rt.t);rt.a.push(d);rt.s=0;b.style.background='';b.textContent='Recommencer';const mean=Math.round(rt.a.reduce((p,q)=>p+q,0)/rt.a.length),sd=Math.round(Math.sqrt(rt.a.reduce((p,q)=>p+(q-mean)**2,0)/rt.a.length));$('#rOut').innerHTML=`Dernier : <span class="out">${d} ms</span><br>Moyenne : ${mean} ms (${rt.a.length} essais) - écart-type : ${sd} ms`}};
+/* ---- Bibliothèque ---- */
+function ls(k,v){try{return v===undefined?localStorage.getItem(k):localStorage.setItem(k,v)}catch(e){return null}}
+let rd;try{rd=new Set(JSON.parse(ls('psy_rd')||'[]'))}catch(e){rd=new Set()}
+const L=[
+[`Fondements`,1,`Qu'est-ce que la psychologie ?`,`Science du comportement et des processus mentaux. Elle naît en 1879 avec le laboratoire de Wundt à Leipzig. Grands courants : structuralisme, fonctionnalisme, behaviorisme, psychanalyse, cognitivisme.`,`Distinguez observation, hypothèse et expérience : formulez une hypothèse testable sur le lien entre sommeil et concentration.`],
+[`Fondements`,1,`Méthodes de recherche`,`Expérimentation, corrélation, étude de cas, observation. Variable indépendante et dépendante, groupe contrôle, double aveugle. Une corrélation ne prouve pas une cause.`,`Concevez une expérience comparant deux méthodes de révision avec un groupe contrôle.`],
+[`Fondements`,2,`Statistiques et psychométrie`,`Moyenne, écart-type, loi normale, p-value, taille d'effet. Un bon test est fidèle et valide. La crise de réplication a montré les limites de petits échantillons.`,`Calculez la moyenne et l'écart-type de vos temps de réaction (onglet Expériences).`],
+[`Neurosciences`,1,`Le neurone et la synapse`,`Dendrites, corps cellulaire, axone. Le potentiel d'action fonctionne en tout-ou-rien. Les neurotransmetteurs (dopamine, sérotonine, GABA, glutamate) transmettent le signal entre neurones.`,`Onglet Neurone : augmentez le courant et observez la fréquence de décharge.`],
+[`Neurosciences`,2,`Anatomie fonctionnelle`,`Lobes, latéralisation, système limbique, plasticité cérébrale. Méthodes d'étude : IRMf, EEG, TEP, étude des lésions.`,`Atlas : pour chaque région, prédisez les symptômes d'une lésion avant de lire la réponse.`],
+[`Neurosciences`,3,`Circuits et neuromodulation`,`Boucles cortico-striato-thalamiques, voie nigrostriée, circuit de la récompense (mésolimbique), axe du stress (HPA). L'hypothèse monoaminergique de la dépression est utile mais incomplète.`,`Pathologies : comparez Parkinson et dépression. Quels circuits sont touchés dans chacun ?`],
+[`Neurosciences`,3,`Neuropsychologie`,`Les cas célèbres (H.M., Phineas Gage, S.M.) ont révélé le rôle de régions précises. La double dissociation montre que deux fonctions reposent sur des systèmes distincts.`,`Atlas : reliez l'aphasie de Broca et celle de Wernicke à leurs aires.`],
+[`Cognitive`,1,`Attention et perception`,`Attention sélective, effet « cocktail party », cécité attentionnelle, lois de la Gestalt (proximité, similarité, bonne forme).`,`Expériences : faites le Stroop et mesurez le coût de l'interférence.`],
+[`Cognitive`,2,`La mémoire`,`Modèle d'Atkinson-Shiffrin, mémoire de travail de Baddeley, mémoire épisodique, sémantique, procédurale. L'oubli suit une courbe exponentielle et l'espacement des révisions le ralentit.`,`Apprentissage : faites varier le nombre et l'écart des révisions et comparez les courbes.`],
+[`Cognitive`,3,`Raisonnement et biais cognitifs`,`Système 1 (rapide, intuitif) et Système 2 (lent, délibéré) selon Kahneman. Heuristiques, biais de confirmation, effet d'ancrage, théorie des perspectives.`,`Repérez un biais dans une décision récente et reformulez-la de façon plus rationnelle.`],
+[`Apprentissage`,1,`Les conditionnements`,`Pavlov (conditionnement classique), Skinner (renforcement et punition), Bandura (apprentissage social). Le modèle de Rescorla-Wagner décrit l'association par l'erreur de prédiction.`,`Apprentissage : simulez l'acquisition puis l'extinction d'une réponse conditionnée.`],
+[`Développement`,1,`Les stades de Piaget`,`Sensori-moteur, préopératoire, opératoire concret, opératoire formel. Assimilation et accommodation expliquent le passage d'un stade à l'autre.`,`Épreuve de conservation des liquides : prédisez la réponse d'un enfant de 5 ans, puis de 9 ans.`],
+[`Développement`,2,`Attachement et Vygotski`,`Bowlby et Ainsworth (situation étrange, styles d'attachement). Vygotski : zone proximale de développement et étayage.`,`Donnez un exemple d'étayage pour l'apprentissage d'une compétence.`],
+[`Sociale`,1,`Influence et conformité`,`Asch (conformité), Milgram (obéissance), Zimbardo. Le contexte pèse plus qu'on ne le croit, et ces études ont suscité des débats éthiques.`,`Pourquoi ces expériences ne seraient-elles plus autorisées aujourd'hui ? Pensez au consentement.`],
+[`Sociale`,2,`Attitudes et dissonance`,`Festinger : la dissonance cognitive pousse à réduire l'écart entre attitudes et actes. Erreur fondamentale d'attribution, stéréotypes et préjugés.`,`Identifiez une dissonance dans vos habitudes et la manière dont vous la réduisez.`],
+[`Personnalité`,2,`Big Five et théories classiques`,`Le modèle OCEAN (ouverture, conscience, extraversion, agréabilité, névrosisme). Freud (ça, moi, surmoi), Jung, approche humaniste (Maslow, Rogers).`,`Situez-vous sur les cinq traits, puis discutez les limites de l'auto-évaluation.`],
+[`Clinique`,2,`Troubles anxieux et de l'humeur`,`Phobies, anxiété généralisée, TOC, dépression. Classifications DSM-5 et CIM-11. Le modèle diathèse-stress combine vulnérabilité et événements de vie.`,`Pathologies : faites varier le stress chronique et observez l'effet sur l'humeur.`],
+[`Clinique`,3,`Psychothérapies`,`TCC (restructuration cognitive, exposition), approche psychodynamique, thérapie d'acceptation et d'engagement. L'alliance thérapeutique prédit en partie les résultats.`,`Construisez une échelle d'exposition en 5 niveaux pour une peur des araignées.`],
+[`Fondements`,2,`Éthique et déontologie`,`Consentement éclairé, confidentialité, rapport bénéfice-risque, comités d'éthique, codes de déontologie des psychologues. Les études de Milgram et de Zimbardo ont fait évoluer ces règles.`,`Rédigez une notice d'information claire pour des participants à une expérience sur la mémoire.`],
+[`Fondements`,3,`Intelligence artificielle et psychologie`,`Les réseaux de neurones artificiels s'inspirent du cerveau. L'apprentissage par renforcement rejoint l'idée d'erreur de prédiction portée par la dopamine. Les analogies ont des limites : un modèle qui imite n'est pas un cerveau.`,`Comparez la règle de Rescorla-Wagner à une mise à jour d'apprentissage automatique.`],
+[`Neurosciences`,2,`Sommeil et rythmes circadiens`,`Le sommeil alterne sommeil lent (léger puis profond) et sommeil paradoxal, en cycles d'environ 90 minutes. Le noyau suprachiasmatique est l'horloge interne, réglée par la lumière, et la mélatonine signale la nuit.`,`EEG : comparez les tracés des yeux fermés et du sommeil profond.`],
+[`Neurosciences`,2,`Les émotions`,`Théories de James-Lange, Cannon-Bard, Schachter-Singer. L'amygdale détecte la menace, l'insula perçoit l'état du corps, le cortex préfrontal régule. Ekman décrit des expressions faciales universelles.`,`Décrivez une émotion récente : déclencheur, réaction du corps, régulation.`],
+[`Neurosciences`,3,`Langage et cerveau`,`Aire de Broca (production), aire de Wernicke (compréhension), faisceau arqué qui les relie. Les modèles actuels décrivent deux voies, dorsale et ventrale. Les aphasies illustrent ces dissociations.`,`Atlas : localisez Broca et Wernicke et prédisez le discours d'un patient lésé dans chacune.`],
+[`Neurosciences`,3,`Neuroimagerie`,`IRM anatomique et IRM fonctionnelle (signal BOLD), EEG (résolution temporelle excellente), MEG, TEP. Chaque méthode a ses limites, et l'inférence inverse (déduire une fonction mentale d'une activation) est risquée.`,`EEG : expliquez pourquoi l'EEG détecte bien le moment d'une crise mais mal sa profondeur.`],
+[`Neurosciences`,3,`Chirurgie cérébrale et cartographie`,`En chirurgie éveillée, la stimulation corticale repère le langage et le moteur avant la résection. Le but : retirer le plus de tumeur possible en préservant les fonctions, selon l'équilibre bénéfice-risque.`,`Neurochirurgie : faites trois cas et comparez cartographie poussée et résection large.`],
+[`Cognitive`,2,`Intelligence et QI`,`Facteur g de Spearman, modèle de Cattell-Horn-Carroll, intelligences multiples de Gardner (débattues). Le QI est normalisé : moyenne 100, écart-type 15. L'effet Flynn décrit la hausse des scores au fil des générations.`,`Avec une moyenne de 100 et un écart-type de 15, quelle part de la population se situe entre 85 et 115 ? (environ 68 %)`],
+[`Développement`,2,`Adolescence et cerveau`,`Le cortex préfrontal mûrit jusqu'à environ 25 ans alors que le circuit de la récompense est très réactif, ce qui aide à comprendre la prise de risque. Erikson : identité contre confusion des rôles.`,`Donnez un exemple où le contexte social change la prise de risque d'un adolescent.`],
+[`Développement`,3,`Vieillissement cognitif`,`Vitesse de traitement et mémoire de travail déclinent, les connaissances restent stables. La réserve cognitive (éducation, activité) retarde l'apparition des symptômes. Le vieillissement normal diffère des démences.`,`Pathologies : réglez Alzheimer sur 30 % puis 70 % et comparez le score.`],
+[`Personnalité`,2,`Motivation`,`Maslow (pyramide des besoins, discutée), théorie de l'autodétermination (autonomie, compétence, lien social), motivation intrinsèque et effet de surjustification.`,`Analysez une activité que vous aimez : quels besoins psychologiques satisfait-elle ?`],
+[`Sociale`,3,`Psychologie des groupes`,`Pensée de groupe (Janis), effet spectateur (Darley et Latané), paresse sociale, polarisation. Des facteurs de situation expliquent beaucoup de comportements collectifs.`,`Proposez trois règles qui réduisent la pensée de groupe dans une équipe.`],
+[`Clinique`,2,`Stress et santé`,`Selye : syndrome général d'adaptation. Axe hypothalamo-hypophyso-surrénalien et cortisol. Lazarus et Folkman : évaluation de la situation et stratégies de coping centrées sur le problème ou l'émotion.`,`Pathologies : réglez le stress chronique et observez la trajectoire d'humeur.`],
+[`Clinique`,3,`Schizophrénie`,`Symptômes positifs (hallucinations, délires), négatifs (apathie, retrait) et cognitifs. Hypothèse dopaminergique, rôle du glutamate et de la génétique. Prise en charge : antipsychotiques et soutien psychosocial.`,`Pathologies : activez le traitement et comparez l'effet sur les deux types de symptômes.`],
+[`Clinique`,3,`TDAH et troubles neurodéveloppementaux`,`Inattention, hyperactivité, impulsivité, depuis l'enfance et dans plusieurs contextes. Le diagnostic est clinique. Prise en charge : psychoéducation, aménagements, parfois médicaments.`,`Pathologies : observez comment les lapsus changent avec le niveau de déficit.`],
+[`Clinique`,3,`Trauma et stress post-traumatique`,`Reviviscences, évitement, hypervigilance après un événement traumatique. Amygdale hyperréactive, hippocampe et préfrontal impliqués. Thérapies recommandées : TCC centrée sur le trauma, EMDR.`,`Expliquez la différence entre une réaction de stress normale et un trouble de stress post-traumatique.`],
+[`Clinique`,3,`Psychopharmacologie`,`Antidépresseurs (ISRS), anxiolytiques, antipsychotiques, stimulants : mécanismes, délais d'action et effets secondaires. Un traitement est prescrit et suivi par un médecin.`,`Associez chaque classe de médicaments au neurotransmetteur principalement visé.`]];
+const fb=$('#fB');['Toutes',...new Set(L.map(l=>l[0]))].forEach(b=>fb.add(new Option(b,b)));
+function lst(){const b=fb.value,n=+$('#fN').value;$('#list').innerHTML='';L.forEach((l,i)=>{if((b=='Toutes'||l[0]==b)&&(!n||l[1]==n)){const e=document.createElement('button');e.className='card';e.innerHTML=`<b>${l[2]}</b>${rd.has(l[2])?' (lu)':''}<br><span class="tag">${l[0]} - niveau ${l[1]}</span>`;e.onclick=()=>{markRead(l[2]);$('#course').innerHTML=`<h3>${l[2]}</h3><p class="tag">${l[0]} - niveau ${l[1]}/3</p><p><b>Théorie.</b> ${l[3]}</p><p><b>Pratique.</b> ${l[4]}</p>`};$('#list').appendChild(e)}})}
+fb.onchange=lst;$('#fN').onchange=lst;lst();
+
+function upd(){$('#prog').textContent=`Progression : ${rd.size}/${L.length} cours lus`}
+function markRead(n){rd.add(n);ls('psy_rd',JSON.stringify([...rd]));upd();lst()}upd();
+/* ---- EEG ---- */
+let gp=0;const GI={open:`Rythme bêta (13 à 30 Hz) : éveil actif et concentration.`,closed:`Rythme alpha (8 à 12 Hz) : éveil calme, yeux fermés, surtout à l'arrière du crâne.`,n3:`Ondes delta (0,5 à 4 Hz) : sommeil lent profond, grande amplitude.`,rem:`Activité rapide de faible amplitude, proche de l'éveil, avec rêves vifs et relâchement musculaire.`,sz:`Pointes-ondes à 3 Hz : décharge synchrone des neurones, typique d'une absence. Une crise prolongée ou convulsive nécessite une prise en charge médicale urgente.`};
+function eeg(){const c=$('#gc'),s=$('#gS').value,A=+$('#gA').value/100,Nz=+$('#gN').value/100,W=c.width,H=c.height,x=c.getContext('2d');
+x.fillStyle='#001a00';x.fillRect(0,0,W,H);x.strokeStyle='#0c4a1c';x.lineWidth=1;for(let i=0;i<=8;i++){x.beginPath();x.moveTo(i*W/8,0);x.lineTo(i*W/8,H);x.stroke()}
+x.fillStyle='#33ff66';x.font='12px monospace';x.fillText('4 secondes, 1 carreau = 0,5 s',8,H-8);
+const f=t=>{const sn=(hz,a,ph)=>a*Math.sin(2*Math.PI*hz*t+ph);
+if(s=='open')return sn(20,.35,0)+sn(14,.25,1)+sn(10,.15,2);if(s=='closed')return sn(10,1,0)+sn(11,.3,1)+sn(20,.1,2);
+if(s=='n3')return sn(1.5,1.2,0)+sn(.8,.6,1)+sn(12,.15,2);if(s=='rem')return sn(6,.3,0)+sn(18,.35,1)+sn(25,.2,2);
+const u=(t*3)%1;return 2.2*Math.exp(-((u-.1)**2)/.0006)-1.1*Math.sin(Math.PI*Math.min(1,Math.max(0,(u-.12)/.8)))};
+x.strokeStyle='#33ff66';x.lineWidth=1.5;x.beginPath();for(let i=0;i<W;i++){const t=gp+i/W*4,nz=(Math.sin(i*12.9898+Math.floor(gp*50)*78.233)*43758.5453%1)*Nz*.9,Y=Math.max(4,Math.min(H-4,H/2-(f(t)+nz)*A*H*.3));i?x.lineTo(i,Y):x.moveTo(i,Y)}x.stroke();$('#gOut').textContent=GI[s]}
+bind(['gA','gN'],eeg);setInterval(()=>{if(!$('#eeg').hidden){gp+=.04;eeg()}},50);
+/* ---- Neurochirurgie ---- */
+let ns;const nr=(a,b)=>a+Math.random()*(b-a);
+function nsInit(){ns={tum:{x:nr(470,570),y:nr(240,310),r:nr(55,72)},z:[{n:'langage',x:nr(320,380),y:nr(180,240),r:34,c:'#ff8040',m:`Le patient s'arrête de parler : zone du langage.`},{n:'moteur',x:nr(590,640),y:nr(160,215),r:32,c:'#ffe040',m:`La main se contracte toute seule : zone motrice.`},{n:'vaisseau',x:nr(530,580),y:nr(340,380),r:14,c:'#ff3030',m:`Vaisseau sanguin important : risque d'hémorragie.`}],cuts:[],marks:[],mode:'map',mri:true};$('#nM').textContent='Mode : cartographier';$('#nI').textContent=`Masquer l'IRM`;$('#nOut').textContent=`Cliquez sur le cortex pour stimuler et observer la réaction du patient éveillé, puis passez en mode résection.`;nd()}
+function nd(){const c=$('#nc'),x=c.getContext('2d');x.fillStyle='#001a00';x.fillRect(0,0,800,520);x.fillStyle='#6a4a4a';x.beginPath();x.ellipse(400,260,360,230,0,0,7);x.fill();x.strokeStyle='#8a6a6a';x.lineWidth=3;for(let i=0;i<14;i++){x.beginPath();x.arc(400+Math.cos(i)*210,260+Math.sin(i*1.7)*130,60+i*3,i,i+2);x.stroke()}
+if(ns.mri){x.fillStyle='rgba(255,255,255,.4)';x.beginPath();x.arc(ns.tum.x,ns.tum.y,ns.tum.r,0,7);x.fill()}
+ns.cuts.forEach(k=>{x.fillStyle='#000';x.beginPath();x.arc(k.x,k.y,k.r,0,7);x.fill()});
+ns.marks.forEach(k=>{x.fillStyle=k.c;x.beginPath();x.arc(k.x,k.y,7,0,7);x.fill();x.strokeStyle='#fff';x.lineWidth=1;x.stroke()})}
+$('#nc').onclick=ev=>{const r=ev.target.getBoundingClientRect(),X=(ev.clientX-r.left)*800/r.width,Y=(ev.clientY-r.top)*520/r.height;
+if(ns.mode=='map'){const z=ns.z.find(z=>Math.hypot(X-z.x,Y-z.y)<z.r);ns.marks.push({x:X,y:Y,c:z?z.c:'#33ff66'});$('#nOut').textContent=z?z.m:`Pas de réaction : zone non essentielle à cet endroit.`}else ns.cuts.push({x:X,y:Y,r:+$('#nR').value});nd()};
+$('#nM').onclick=()=>{ns.mode=ns.mode=='map'?'cut':'map';$('#nM').textContent=ns.mode=='map'?'Mode : cartographier':'Mode : réséquer'};
+$('#nI').onclick=()=>{ns.mri=!ns.mri;$('#nI').textContent=ns.mri?`Masquer l'IRM`:`Afficher l'IRM`;nd()};
+$('#nX').onclick=nsInit;bind(['nR'],()=>{});
+$('#nE').onclick=()=>{const cut=(X,Y)=>ns.cuts.some(k=>Math.hypot(X-k.x,Y-k.y)<k.r),T=ns.tum;let tot=0,rem=0;
+for(let X=T.x-T.r;X<=T.x+T.r;X+=4)for(let Y=T.y-T.r;Y<=T.y+T.r;Y+=4)if(Math.hypot(X-T.x,Y-T.y)<T.r){tot++;if(cut(X,Y))rem++}
+const dm=ns.z.filter(z=>{let n=0,k=0;for(let X=z.x-z.r;X<=z.x+z.r;X+=3)for(let Y=z.y-z.r;Y<=z.y+z.r;Y+=3)if(Math.hypot(X-z.x,Y-z.y)<z.r){n++;if(cut(X,Y))k++}return k/n>.12}),pc=Math.round(100*rem/tot);
+$('#nOut').innerHTML=`Tumeur retirée : <span class="out">${pc} %</span><br>${dm.length?'Zones lésées : '+dm.map(z=>z.n).join(', ')+'. Séquelles probables : cartographiez davantage et évitez ces zones.':'Aucune zone fonctionnelle lésée.'}<br>${dm.length?'':pc>=90?'Excellente résection.':pc>=60?'Résection partielle : un traitement complémentaire est souvent nécessaire.':'Résection insuffisante.'}`};
+nsInit();
+/* ---- Personnalité ---- */
+const PQ=[['O',1,`J'aime découvrir des idées nouvelles et inhabituelles.`],['O',0,`Je préfère les habitudes aux changements.`],['C',1,`Je termine ce que je commence, de façon organisée.`],['C',0,`J'oublie souvent de planifier ou de ranger mes affaires.`],['E',1,`Je suis à l'aise au milieu des autres.`],['E',0,`Je préfère rester discret dans un groupe.`],['A',1,`Je fais facilement confiance et j'aime aider.`],['A',0,`Je critique facilement les autres.`],['N',1,`Je m'inquiète souvent.`],['N',0,`Je reste calme sous la pression.`]],TN={O:'Ouverture',C:'Conscience',E:'Extraversion',A:'Agréabilité',N:'Névrosisme'};
+$('#pq').innerHTML='<p class="note">1 = pas du tout d\'accord, 5 = tout à fait d\'accord</p>'+PQ.map((q,i)=>`<label>${q[2]} <b class="out" id="q${i}v">3</b><input type="range" min="1" max="5" value="3" id="q${i}"></label>`).join('');
+function pers(){const sc={};PQ.forEach((q,i)=>{const v=+$('#q'+i).value;$('#q'+i+'v').textContent=v;(sc[q[0]]=sc[q[0]]||[]).push(q[1]?v:6-v)});
+$('#pr').innerHTML='<h3>Votre profil</h3>'+Object.keys(TN).map(k=>{const p=Math.round((sc[k][0]+sc[k][1]-2)/8*100);return `<div>${TN[k]} : ${p} %</div><div class="bar"><i style="width:${p}%"></i></div>`}).join('')+'<p class="note">Les traits décrivent des tendances qui varient selon les situations. Ce ne sont pas des étiquettes.</p>'}
+PQ.forEach((q,i)=>$('#q'+i).oninput=pers);pers();
+/* ---- Carnet de bord ---- */
+const NW=[[`5 oct. 2026`,`Nobel de médecine 2026 : l'optogénétique récompensée`,`Karl Deisseroth, Peter Hegemann et Georg Nagel sont distingués pour leurs travaux sur les canaux ioniques sensibles à la lumière, qui permettent d'activer ou d'éteindre des neurones précis avec de la lumière. La technique ouvre des pistes contre l'épilepsie, la douleur ou certains troubles mentaux.`,`NPR`,`https://npr.org/2026/10/05/g-s1-146400/nobel-medicine-prize`,`Neurosciences`],
+[`4 oct. 2026`,`Intestin, vieillissement du cerveau et Alzheimer`,`Une étude de l'UCLA associe un vieillissement cérébral accéléré à certaines bactéries intestinales. Un autre travail relie un composé d'origine bactérienne, l'ImP, à un risque plus élevé d'Alzheimer. Ce sont des associations : elles ne prouvent pas une cause.`,`ScienceDaily`,`https://www.sciencedaily.com/news/mind_brain/`,`Vieillissement`],
+[`1 oct. 2026`,`Le régime MIND associé à un cerveau qui vieillit plus lentement`,`Les personnes suivant de près ce régime montraient moins d'atrophie cérébrale, l'écart maximal équivalant à environ 2,5 ans de vieillissement en moins. L'étude est observationnelle.`,`ScienceDaily`,`https://www.sciencedaily.com/news/mind_brain/neuroscience/`,`Nutrition et cerveau`],
+[`1 oct. 2026`,`Aliments ultra-transformés et dépression`,`Dans une petite étude préliminaire, des personnes déprimées qui ont fortement réduit ces aliments ont vu leurs symptômes s'améliorer. Il faut des essais plus larges avant de conclure.`,`ScienceDaily`,`https://www.sciencedaily.com/news/mind_brain/psychology/`,`Dépression`],
+[`5 oct. 2026`,`Stimuler le nerf vague pour consolider un apprentissage`,`Chez la souris, stimuler le nerf vague juste après l'entraînement a renforcé la mémorisation à long terme d'un geste, ce qui suggère une fenêtre de consolidation.`,`ScienceDaily`,`https://www.sciencedaily.com/news/mind_brain/psychology/`,`Apprentissage`],
+[`1 oct. 2026`,`APOE4 : une faiblesse peut-être réversible`,`Le gène de risque APOE4 semble abîmer les vaisseaux du cerveau et perturber le nettoyage des protéines nocives. Certains effets ont pu être inversés en laboratoire.`,`ScienceDaily`,`https://www.sciencedaily.com/news/mind_brain/`,`Alzheimer`],
+[`4 oct. 2026`,`Vitamine B3 et glioblastome : premiers résultats`,`Dans un petit essai, 82 % des patients recevant de la vitamine B3 à haute dose en plus du traitement standard n'avaient pas progressé après six mois. Résultat très préliminaire.`,`ScienceDaily`,`https://www.sciencedaily.com/news/mind_brain/`,`Neuro-oncologie`],
+[`7 oct. 2026`,`Décoder des mélodies imaginées`,`Des chercheurs ont reconstitué des mélodies imaginées à partir de l'activité cérébrale humaine, une avancée vers les interfaces cerveau-machine.`,`PsyPost`,`https://www.psypost.org/`,`Neurosciences`]];
+$('#news').innerHTML=NW.map(n=>`<div class="box news"><span class="tag">${n[0]} - ${n[5]}</span><h3>${n[1]}</h3><p>${n[2]}</p><a href="${n[4]}" target="_blank" rel="noopener noreferrer">Source : ${n[3]}</a></div>`).join('');
+$('#myn').value=ls('psy_notes')||'';$('#myn').oninput=()=>{ls('psy_notes',$('#myn').value)};
+</script></body></html>
