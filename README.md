@@ -2,7 +2,7 @@
 Un laboratoire interactif virtuel de psychologie et de neurosciences conçu de manière autodidacte à des fins éducatives.
 
 N'importe qui peut l'utiliser directement dans son navigateur sans rien installer :
- **[Lancer la simulation Psycholab](https://github.io)**
+ **[Lancer la simulation Psycholab]([https://github.io](https://ishakthenerd.github.io/Psycholab/))**
 
 ---
 
