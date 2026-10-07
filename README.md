@@ -1,7 +1,7 @@
 # Psycholab
 Un laboratoire interactif virtuel de psychologie et de neurosciences conçu de manière autodidacte à des fins éducatives.
 
-N'importe qui peut l'utiliser directement dans son navigateur sans rien installer :https://ishakthenerd.github.io/Psycholab/
+N'importe qui peut l'utiliser directement dans son navigateur sans rien installer :[https://ishakthenerd.github.io/Psycholab/](https://ishakthenerd.github.io/Psycholab-Laboratoire-virtuel-de-psychologie-et-de-neurosciences/)
 ---
 
 *   **Atlas cérébral :** Exploration visuelle interactive des régions et structures profondes 
