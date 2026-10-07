@@ -12,3 +12,4 @@ N'importe qui peut l'utiliser directement dans son navigateur sans rien installe
 *   **Expériences de psychologie :** Test de Stroop et mesure du temps de réaction.
 *   **Mémoire & Apprentissage :** Courbes mathématiques basées sur les modèles de Rescorla-Wagner et d'Ebbinghaus (courbe de l'oubli).
 *   **Profil de personnalité :** Version d'illustration basée sur le modèle des Big Five.
+Les simulations sont des représentations simplifiées à visée pédagogique et ne constituent pas des modèles diagnostiques ou des outils médicaux
